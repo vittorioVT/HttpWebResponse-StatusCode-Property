@@ -1,0 +1,21 @@
+﻿@model IEnumerable<TitleUrlResponse1.Models.Info>
+@{
+    ViewBag.Title = "Получаем информацию по url";
+
+}
+
+
+<div class="myform">
+    
+    @using (Html.BeginForm("GetUrl", "Home", FormMethod.Post))
+    {
+        <p>Введите адрес url</p>
+
+        <p>@Html.TextArea("text", "", 5, 30, Url)</p>
+
+        <input type="submit" value="Получить информацию" />
+        <br /><br />
+     }
+
+
+</div>
