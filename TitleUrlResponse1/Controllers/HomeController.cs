@@ -16,10 +16,7 @@ namespace TitleUrlResponse1.Controllers
     {
 
         Info info = new Info();
-        public string url;
-        public string address;
-        public string DisplayName { get;}
-        Encoding unf = Encoding.UTF8;
+        public string url, address, title, responseContent;
 
         [HttpGet]
         public ActionResult Index()
@@ -36,20 +33,17 @@ namespace TitleUrlResponse1.Controllers
             else
             {
                 url = GetCorrectUrl(text);
-                address = new WebClient().DownloadString(url);
-                string title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
-                //if (Encoding.GetEncoding(title) == Encoding.ASCII)
-                //{
-                //    string asciiTitle = ConvertEncoding(title);
-                //    ViewBag.MessageEncoding = asciiTitle;
-                //}
-                //else
-                //{
-                //    ViewBag.TitleUrl = title;
-                //}   
+
+                HttpWebRequest httpWebReq = (HttpWebRequest)WebRequest.Create(url);
+                HttpWebResponse httpWebResp = (HttpWebResponse)httpWebReq.GetResponse();
+                using (StreamReader streamReader = new StreamReader(httpWebResp.GetResponseStream()))
+                {
+                    responseContent = streamReader.ReadToEnd(); 
+                }
+                address = responseContent;
+                            
+                title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
                 ViewBag.TitleUrl = title;
-
-
 
             }
             return View();
@@ -82,7 +76,6 @@ namespace TitleUrlResponse1.Controllers
             string utfLine = content;
             Encoding utf = Encoding.UTF8;
             Encoding win = Encoding.GetEncoding(1251);
-
             byte[] utfArr = utf.GetBytes(utfLine);
             byte[] winArr = Encoding.Convert(win, utf, utfArr);
             string result = win.GetString(winArr);
