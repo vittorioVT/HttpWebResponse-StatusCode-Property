@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TitleUrlResponse1.Models;
@@ -14,9 +15,10 @@ namespace TitleUrlResponse1.Controllers
 {
     public class HomeController : Controller
     {
-
         Info info = new Info();
         public string url, address, title, responseContent;
+        HttpStatusCode statusCode;
+        DateTime lastModified;
 
         [HttpGet]
         public ActionResult Index()
@@ -38,18 +40,25 @@ namespace TitleUrlResponse1.Controllers
                 HttpWebResponse httpWebResp = (HttpWebResponse)httpWebReq.GetResponse();
                 using (StreamReader streamReader = new StreamReader(httpWebResp.GetResponseStream()))
                 {
-                    responseContent = streamReader.ReadToEnd(); 
+                    responseContent = streamReader.ReadToEnd();
+                    lastModified = httpWebResp.LastModified;
+                    statusCode = httpWebResp.StatusCode;
+
                 }
                 address = responseContent;
-                            
                 title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
+                ViewBag.NameUrl = url;
                 ViewBag.TitleUrl = title;
+                ViewBag.lastModified = lastModified;
+                ViewBag.statusCode = statusCode;
 
             }
             return View();
         }
 
-         // проверяем, корректен ли адрес, который ввел пользователь
+
+
+        // проверяем, корректен ли адрес, который ввел пользователь
         public string GetCorrectUrl(string text)
         {
             if (text != null)
@@ -84,6 +93,9 @@ namespace TitleUrlResponse1.Controllers
         }
                 
 
+
+
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -95,22 +107,7 @@ namespace TitleUrlResponse1.Controllers
         [HttpPost]
         public string GetUrl(string text)
         {
-            // определяем title url-страницы
-            if (GetCorrectUrl(text) == null)
-            {
-                ViewBag.MessageAboutUrl = "Пожалуйста, введите корректный адрес";
-            }
-            else
-            {
-                url = GetCorrectUrl(text);
-            }
-             url = GetCorrectUrl(text);
-            address = new WebClient().DownloadString(url);
-            string title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
-
-            //проверяем кодировку источника 
-
-            return title;
+             return null;
             
             
             //string[] urls = text.Split(' ', ',', '.', '\t');
@@ -130,15 +127,6 @@ namespace TitleUrlResponse1.Controllers
         //    //return collectionList;
 
         //}
-
-
-
-
-        
-
-
-
-
 
     }
 }
