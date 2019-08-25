@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -17,7 +18,8 @@ namespace TitleUrlResponse1.Controllers
         Info info = new Info();
         public string url;
         public string address;
-
+        public string DisplayName { get;}
+        Encoding unf = Encoding.UTF8;
 
         [HttpGet]
         public ActionResult Index()
@@ -36,7 +38,19 @@ namespace TitleUrlResponse1.Controllers
                 url = GetCorrectUrl(text);
                 address = new WebClient().DownloadString(url);
                 string title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
+                //if (Encoding.GetEncoding(title) == Encoding.ASCII)
+                //{
+                //    string asciiTitle = ConvertEncoding(title);
+                //    ViewBag.MessageEncoding = asciiTitle;
+                //}
+                //else
+                //{
+                //    ViewBag.TitleUrl = title;
+                //}   
                 ViewBag.TitleUrl = title;
+
+
+
             }
             return View();
         }
@@ -62,7 +76,20 @@ namespace TitleUrlResponse1.Controllers
 
         }
 
+        //меняем кодировку title страницы 
+        public string ConvertEncoding(string content)
+        {
+            string utfLine = content;
+            Encoding utf = Encoding.UTF8;
+            Encoding win = Encoding.GetEncoding(1251);
 
+            byte[] utfArr = utf.GetBytes(utfLine);
+            byte[] winArr = Encoding.Convert(win, utf, utfArr);
+            string result = win.GetString(winArr);
+
+            return result;
+        }
+                
 
         public ActionResult Contact()
         {
@@ -111,11 +138,7 @@ namespace TitleUrlResponse1.Controllers
 
         //}
 
-        public Encoding GetCorrectEncoding()
-        {
 
-            return null;
-        }
 
 
         
