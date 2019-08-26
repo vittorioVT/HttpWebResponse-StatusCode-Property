@@ -4,14 +4,14 @@
 }
 
 <div class="myStyle">
-    <h5>Получаем информацию о запросе через Модель</h5>
+    <h5>Получаем информацию о запросе</h5>
 
-    <table class="table">
-        <tr>
+    <table class="table table-bordered table-hover">
+        <tr class="info">
             <td><p>URL</p></td>
-            <td><p>Last request date</p></td>
             <td><p>Last title</p></td>
             <td><p>Last status</p></td>
+            <td><p>Last request date</p></td>
         </tr>
         @foreach (var i in ViewBag.Info)
         {

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using TitleUrlResponse1.Models;
 
@@ -19,8 +16,8 @@ namespace TitleUrlResponse1.Controllers
         public string url, address, title, responseContent;
         HttpStatusCode statusCode;
         DateTime lastModified;
-        List<Info> InfoCollection;
-
+        List<Info> InfoCollection = new List<Info>();
+        
         [HttpGet]
         public ActionResult Index()
         {
@@ -29,46 +26,37 @@ namespace TitleUrlResponse1.Controllers
 
         public ActionResult About(string text)
         {
-            string[] urls = text.Split(' ', ',', '.', '\t');
+            string[] arrays = text.Trim().Split(' ',',', '\r', '\n');
+            string[] urls = arrays.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
-            //for(int i = 0; i< urls.Length; i++)
-
-            if (GetCorrectUrl(text) == null)
+            for(int i = 0; i < urls.Length; i++)
             {
-                ViewBag.MessageAboutUrl = "Пожалуйста, введите корректный адрес";
-            }
-            else
-            {
-                url = GetCorrectUrl(text);
-
-                HttpWebRequest httpWebReq = (HttpWebRequest)WebRequest.Create(url);
-                HttpWebResponse httpWebResp = (HttpWebResponse)httpWebReq.GetResponse();
-                using (StreamReader streamReader = new StreamReader(httpWebResp.GetResponseStream()))
+                if (GetCorrectUrl(urls[i]) == null)
                 {
-                    responseContent = streamReader.ReadToEnd();
-                    lastModified = httpWebResp.LastModified;
-                    statusCode = httpWebResp.StatusCode;
+                    ViewBag.MessageAboutUrl = "Пожалуйста, введите корректный адрес";
                 }
-                
-                address = responseContent;
-                title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
-
-                InfoCollection = new List<Info>()
+                else
                 {
-                  new Info{ NameUrl = url, TitleUrl = title, StatusCode = statusCode, LastModified = lastModified}
-                };
-
-                ViewBag.Info = InfoCollection;
-                
-                //ViewBag.NameUrl = url;
-                //ViewBag.TitleUrl = title;
-                //ViewBag.lastModified = lastModified;
-                //ViewBag.statusCode = statusCode;
-
+                    url = GetCorrectUrl(urls[i]);
+                    HttpWebRequest httpWebReq = (HttpWebRequest)WebRequest.Create(url);
+                    HttpWebResponse httpWebResp = (HttpWebResponse)httpWebReq.GetResponse();
+                    using (StreamReader streamReader = new StreamReader(httpWebResp.GetResponseStream()))
+                    {
+                        responseContent = streamReader.ReadToEnd();
+                        lastModified = httpWebResp.LastModified;
+                        statusCode = httpWebResp.StatusCode;
+                    }
+                    address = responseContent;
+                    title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
+                    
+                    InfoCollection.Add(new Info() { NameUrl = url, TitleUrl = title, StatusCode = statusCode, LastModified = lastModified });
+                }
             }
+
+            ViewBag.Info = InfoCollection;
+
             return View();
         }
-
 
 
         // проверяем, корректен ли адрес, который ввел пользователь
@@ -104,7 +92,6 @@ namespace TitleUrlResponse1.Controllers
 
             return result;
         }
-         
 
         public ActionResult Contact()
         {
@@ -118,25 +105,6 @@ namespace TitleUrlResponse1.Controllers
         public string GetUrl(string text)
         {
              return null;
-            
-            
-            //string[] urls = text.Split(' ', ',', '.', '\t');
-            //return urls;
         }
-
-        //public string[] GetStatusCode(string text)
-        //{
-        //    List<Info> collectionList = new List<Info>()
-        //    {
-        //        new Info{ Address="", Title="", LastRequest=, LastStatus="", RequestCount= },
-        //        new Info{ Address="", Title="", LastRequest=, LastStatus="", RequestCount= },
-        //        new Info{ Address="", Title="", LastRequest=, LastStatus="", RequestCount= },
-        //        new Info{ Address="", Title="", LastRequest=, LastStatus="", RequestCount= }
-        //    };
-
-        //    //return collectionList;
-
-        //}
-
     }
 }
