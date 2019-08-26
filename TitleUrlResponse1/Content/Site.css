@@ -22,7 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
-.myform{
+#myform{
     padding: 60px;
 
 

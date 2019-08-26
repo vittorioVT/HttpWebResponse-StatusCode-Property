@@ -5,10 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
-using System.Data.Entity;
-using TitleUrlResponse1.Models;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using TitleUrlResponse1.Models;
 
 namespace TitleUrlResponse1.Controllers
 {
@@ -96,18 +95,12 @@ namespace TitleUrlResponse1.Controllers
             return result;
         }
 
-        public ActionResult Contact()
+        public ActionResult Chartbar()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "";
 
             return View();
         }
         
-
-        [HttpPost]
-        public string GetUrl(string text)
-        {
-             return null;
-        }
     }
 }
