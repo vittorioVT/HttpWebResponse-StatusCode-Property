@@ -9,13 +9,10 @@ namespace TitleUrlResponse1.Models
 {
     public class Info
     {
-        public string Address { get; set; }
-        public string Title { get; set; }
-        public string LastStatus { get; set; }
-        public DateTime LastRequest { get; set; }
+        public string NameUrl { get; set; }
+        public string TitleUrl { get; set; }
+        public string StatusCode { get; set; }
+        public DateTime LastModified { get; set; }
         public int RequestCount { get; set; }
     }
-
-    
-
 }

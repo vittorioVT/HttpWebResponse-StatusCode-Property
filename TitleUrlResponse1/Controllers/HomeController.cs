@@ -43,8 +43,8 @@ namespace TitleUrlResponse1.Controllers
                     responseContent = streamReader.ReadToEnd();
                     lastModified = httpWebResp.LastModified;
                     statusCode = httpWebResp.StatusCode;
-
                 }
+                
                 address = responseContent;
                 title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
                 ViewBag.NameUrl = url;
