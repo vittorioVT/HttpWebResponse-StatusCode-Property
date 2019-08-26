@@ -6,7 +6,9 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using System.Data.Entity;
 using TitleUrlResponse1.Models;
+using System.Threading.Tasks;
 
 namespace TitleUrlResponse1.Controllers
 {
@@ -17,19 +19,19 @@ namespace TitleUrlResponse1.Controllers
         HttpStatusCode statusCode;
         DateTime lastModified;
         List<Info> InfoCollection = new List<Info>();
-        
+       
         [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About(string text)
+        public async Task<ActionResult> About(string text)
         {
-            string[] arrays = text.Trim().Split(' ',',', '\r', '\n');
+            string[] arrays = text.Trim().Split(' ', ',', '\r', '\n');
             string[] urls = arrays.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-
-            for(int i = 0; i < urls.Length; i++)
+            
+            for (int i = 0; i < urls.Length; i++)
             {
                 if (GetCorrectUrl(urls[i]) == null)
                 {
@@ -42,22 +44,23 @@ namespace TitleUrlResponse1.Controllers
                     HttpWebResponse httpWebResp = (HttpWebResponse)httpWebReq.GetResponse();
                     using (StreamReader streamReader = new StreamReader(httpWebResp.GetResponseStream()))
                     {
-                        responseContent = streamReader.ReadToEnd();
+                        responseContent = await streamReader.ReadToEndAsync();
                         lastModified = httpWebResp.LastModified;
                         statusCode = httpWebResp.StatusCode;
                     }
+
                     address = responseContent;
                     title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
-                    
+
                     InfoCollection.Add(new Info() { NameUrl = url, TitleUrl = title, StatusCode = statusCode, LastModified = lastModified });
                 }
             }
 
-            ViewBag.Info = InfoCollection;
+             ViewBag.Info = InfoCollection;
 
             return View();
         }
-
+       
 
         // проверяем, корректен ли адрес, который ввел пользователь
         public string GetCorrectUrl(string text)
