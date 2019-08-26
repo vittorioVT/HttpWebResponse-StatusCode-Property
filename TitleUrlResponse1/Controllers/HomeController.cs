@@ -19,6 +19,7 @@ namespace TitleUrlResponse1.Controllers
         public string url, address, title, responseContent;
         HttpStatusCode statusCode;
         DateTime lastModified;
+        List<Info> InfoCollection;
 
         [HttpGet]
         public ActionResult Index()
@@ -28,6 +29,10 @@ namespace TitleUrlResponse1.Controllers
 
         public ActionResult About(string text)
         {
+            string[] urls = text.Split(' ', ',', '.', '\t');
+
+            //for(int i = 0; i< urls.Length; i++)
+
             if (GetCorrectUrl(text) == null)
             {
                 ViewBag.MessageAboutUrl = "Пожалуйста, введите корректный адрес";
@@ -47,10 +52,18 @@ namespace TitleUrlResponse1.Controllers
                 
                 address = responseContent;
                 title = Regex.Match(address, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
-                ViewBag.NameUrl = url;
-                ViewBag.TitleUrl = title;
-                ViewBag.lastModified = lastModified;
-                ViewBag.statusCode = statusCode;
+
+                InfoCollection = new List<Info>()
+                {
+                  new Info{ NameUrl = url, TitleUrl = title, StatusCode = statusCode, LastModified = lastModified}
+                };
+
+                ViewBag.Info = InfoCollection;
+                
+                //ViewBag.NameUrl = url;
+                //ViewBag.TitleUrl = title;
+                //ViewBag.lastModified = lastModified;
+                //ViewBag.statusCode = statusCode;
 
             }
             return View();
@@ -91,10 +104,7 @@ namespace TitleUrlResponse1.Controllers
 
             return result;
         }
-                
-
-
-
+         
 
         public ActionResult Contact()
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -11,7 +12,7 @@ namespace TitleUrlResponse1.Models
     {
         public string NameUrl { get; set; }
         public string TitleUrl { get; set; }
-        public string StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
         public DateTime LastModified { get; set; }
         public int RequestCount { get; set; }
     }
