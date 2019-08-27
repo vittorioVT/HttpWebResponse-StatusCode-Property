@@ -59,7 +59,14 @@ namespace TitleUrlResponse1.Controllers
 
             return View();
         }
-       
+
+        public ActionResult Chartbar(string text)
+        {
+            ViewBag.Message = text;
+
+            return View();
+        }
+
 
         // проверяем, корректен ли адрес, который ввел пользователь
         public string GetCorrectUrl(string text)
@@ -95,12 +102,6 @@ namespace TitleUrlResponse1.Controllers
             return result;
         }
 
-        public ActionResult Chartbar()
-        {
-            ViewBag.Message = "";
-
-            return View();
-        }
         
     }
 }

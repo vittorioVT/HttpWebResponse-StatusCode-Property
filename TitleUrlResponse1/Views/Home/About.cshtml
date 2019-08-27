@@ -13,20 +13,29 @@
             <td><p>Last title</p></td>
             <td><p>Last status</p></td>
             <td><p>Last request date</p></td>
+            @*<td><p>Statistics</p></td>*@
         </tr>
-        @foreach (var i in ViewBag.Info)
+        @using (Html.BeginForm("Chartbar", "Home", FormMethod.Post))
         {
-            <tr>
+
+            foreach (var i in ViewBag.Info)
+            {
+        
+            <tr class="statistic" onclick="window.location.href='/Home/Chartbar'; return false">
                 <td><p>@i.NameUrl</p></td>
                 <td><p>@i.TitleUrl</p></td>
                 <td><p>@i.StatusCode</p></td>
                 <td><p>@i.LastModified</p></td>
+                @*<td><p><a href="/Home/Chartbar">Получить статистику</a></p></td>*@
             </tr>
-        }
+        
 
-    </table>
+            }
+         }
+
+</table>
 </div>
 
-        
-  
+
+
 

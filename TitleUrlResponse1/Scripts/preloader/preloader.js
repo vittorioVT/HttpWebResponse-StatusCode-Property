@@ -3,9 +3,8 @@
     var myform = $("#myform");
 
     loaderDown.on("click", function () {
-       
-      document.getElementById('myform').hidden = true;
-        
+        myform.hide();
+              
         $(".dws-progress-bar").circularProgress({
             color: "red",
             line_width: 18,
