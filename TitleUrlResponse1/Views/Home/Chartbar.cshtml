@@ -7,7 +7,18 @@
 <div class="myStyle" id="#statistic">
     <h5>Страничка со статистикой</h5>
 
+    <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
 
 
 
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/scripts/jquery-3.4.1.min.js")
+    @Scripts.Render("~/scripts/highchart.js")
+    @Scripts.Render("http://code.highcharts.com/stock/highstock.js")
+}
+
+
+
