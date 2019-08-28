@@ -163,6 +163,8 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="package.json" />
+    <Content Include="src\app\app.component.css" />
+    <Content Include="src\app\app.component.html" />
     <Content Include="webpack.config.js" />
     <None Include="Properties\PublishProfiles\getinfourl - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\TitleUrlResponse - Web Deploy.pubxml" />
@@ -217,13 +219,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="src\app\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <TypeScriptCompile Include="src\app\app.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
