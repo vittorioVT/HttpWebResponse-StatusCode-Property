@@ -163,6 +163,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="package.json" />
+    <Content Include="webpack.config.js" />
     <None Include="Properties\PublishProfiles\getinfourl - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\TitleUrlResponse - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -212,6 +213,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
