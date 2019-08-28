@@ -3,7 +3,7 @@
 @Component({
     selector: 'titleurl',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.compontnet.css']
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {
     title: string = "Hello!";

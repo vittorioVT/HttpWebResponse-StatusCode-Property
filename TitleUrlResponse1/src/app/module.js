@@ -4,20 +4,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { Component } from '@angular/core';
-var AppComponent = /** @class */ (function () {
-    function AppComponent() {
-        this.title = "Hello!";
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+var AppModule = /** @class */ (function () {
+    function AppModule() {
     }
-    AppComponent = __decorate([
-        Component({
-            selector: 'titleurl',
-            templateUrl: './app.component.html',
-            styleUrls: ['./app.component.css']
+    AppModule = __decorate([
+        NgModule({
+            imports: [BrowserModule, FormsModule],
+            declarations: [AppComponent],
+            bootstrap: [AppComponent]
         })
-    ], AppComponent);
-    return AppComponent;
+    ], AppModule);
+    return AppModule;
 }());
-export { AppComponent };
-;
-//# sourceMappingURL=app.component.js.map
+export { AppModule };
+//# sourceMappingURL=module.js.map
