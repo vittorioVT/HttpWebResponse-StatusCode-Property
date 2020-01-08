@@ -10,7 +10,7 @@
     {
         <p>Введите адреса url через запятую или пробел</p>
         <p><textarea id="text" name="text" placeholder="Адрес должен начинаться с http:// или https://" rows="10" cols="45" class="form-control focus"></textarea></p>
-        <input type="submit" value="Получить информацию" id="preloaderDownLoad"/>
+        <input type="submit" value="Получить информацию" id="preloaderDownLoad" />
 
     }
 
@@ -34,5 +34,7 @@
     @Scripts.Render("~/scripts/jquery-3.4.1.min.js")
     @Scripts.Render("~/scripts/preloader/plugin.js")
     @Scripts.Render("~/scripts/preloader/preloader.js")
+    <script src="~/public/polyfills.js"></script>
+    <script src="~/public/app.js"></script>
 }
 
